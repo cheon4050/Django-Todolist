@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="kr" dir = "ltr">
+
+<head>
+  <meta charset = "utf-8">
+  <title>TO DO LIST</title>
+  <link rel = "stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+<section class="vh-100" style="background-color: #eee;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-lg-9 col-xl-7">
+        <div class="card rounded-3">
+          <div class="card-body p-4">
+            <h4 class="text-center my-3 pb-3">완료 목록</h4>
+            <table class="table mb-4">
+              <thead>
+                <tr>
+                  <th scope="col">No.</th>
+                  <th scope="col">할일</th>
+                  <th scope="col">만료 기한</th>
+                  <th scope="col">종료 시간</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for c in todos %}
+                <tr>
+                  <th scope="row">{{forloop.counter}}</th>
+                  <td>{{c.todo}}</td>
+                  <td>{{c.deadline}}</td>
+                  <td>{{c.finished}}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+
+</html>

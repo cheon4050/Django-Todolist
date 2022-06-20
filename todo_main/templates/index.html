@@ -1,14 +1,82 @@
-<div id="myDIV" class="header">
-  <h2>My To Do List</h2>
-  <input type="text" id="myInput" placeholder="Title...">
-  <span onclick="newElement()" class="addBtn">Add</span>
-</div>
+<!DOCTYPE html>
+<html lang="kr" dir = "ltr">
 
-<ul id="myUL">
-  <li>Hit the gym</li>
-  <li class="checked">Pay bills</li>
-  <li>Meet George</li>
-  <li>Buy eggs</li>
-  <li>Read a book</li>
-  <li>Organize office</li>
-</ul>
+<head>
+  <meta charset = "utf-8">
+  <title>TO DO LIST</title>
+  <link rel = "stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="col-md-4" style="position: absolute; right:70px; top:10px;">
+    {% if user.is_authenticated %}
+  <a role="button" type="button" style="width:100px" class="btn btn-outline-dark btn-block btn-sm"
+     href="{% url 'account_logout' %}">로그아웃</a>
+    {% else %}
+    <a role="button" type="button" style="width:100px" class="btn btn-outline-dark btn-block btn-sm"
+     href="{% url 'account_login' %}">로그인</a>
+    {% endif %}
+</div>
+<section class="vh-100" style="background-color: #eee;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-lg-9 col-xl-7">
+        <div class="card rounded-3">
+          <div class="card-body p-4">
+
+            <h4 class="text-center my-3 pb-3">To Do List</h4>
+            <form action="create/" method="post" class="row row-cols-lg-auto g-3 justify-content-center align-items-center mb-4 pb-2">
+              {% csrf_token %}
+              <div class="col-12">
+                <div class="form-outline">
+                  <input type="text" name="todo" id="todo" class="form-control" />
+                  <label class="form-label" for=todo>해야할 일을 입력 하세요.</label>
+                  <br>
+                  <input type="datetime-local" name="deadline" id="deadline">
+                  <br>
+                  <label class="form-label" for="deadline" class="form-control">만료 기한을 입력 하세요.</label>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <input type="submit" value = "저장" class="btn btn-primary float-sm-right">
+                <button type="button" class="btn btn-warning float-right" onclick="location.href='/finished/'">완료 목록</button>
+              </div>
+
+
+            </form>
+
+            <table class="table mb-4">
+              <thead>
+                <tr>
+                  <th scope="col">No.</th>
+                  <th scope="col">할 일</th>
+                  <th scope="col">만료 기한</th>
+                  <th scope="col">선택</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for c in todos %}
+                <tr>
+                  <th scope="row">{{forloop.counter}}</th>
+                  <td>{{c.todo}}</td>
+                  <td>{{c.deadline}}</td>
+                  <td>
+                    <div>
+                     <button type="submit" value="finished" class="btn btn-success" onclick="location.href='/finish/{{c.pk}}/'">완료</button>
+                        <button type="submit" value="delete" class="btn btn-danger" onclick="location.href='/delete/{{c.pk}}/'">제거</button>
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+
+</html>
